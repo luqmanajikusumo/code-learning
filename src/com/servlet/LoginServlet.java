@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.dao.Login;
 import com.model.Model;
@@ -29,8 +28,6 @@ public class LoginServlet extends HttpServlet {
 		datamodel.setPassword(password);
 		try {
 			if(Login.login(datamodel)) {
-				HttpSession session=request.getSession();
-				session.setAttribute("datamodel",datamodel);
 				request.setAttribute("datamodel", datamodel);
 				request.getRequestDispatcher("/RedirectServlet").include(request, response);
 			}

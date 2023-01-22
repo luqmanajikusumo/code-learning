@@ -19,42 +19,46 @@ public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String uname = request.getParameter("uname");
-		Model model = new Model();
-		HttpSession session = request.getSession(true);
+		request.getRequestDispatcher("profile.html").include(request, response);
+		HttpSession session = request.getSession(false);
 		if(session!=null) {
+			String name = (String)session.getAttribute("name");
+			Model model = new Model();
 			try {
-				ProfileRedirect.profileredirect(model, uname);
-				String name = model.getName();
-				String email = model.getEmail();
-				String address = model.getAddress();
-				String city = model.getCity();
-				String country = model.getCountry();
+				ProfileRedirect.profileredirect(model, name);
 				model.setName(name);
-				model.setUName(uname);
+				String username = model.getUName();
+				model.setUName(username);
+				String email = model.getEmail();
 				model.setEmail(email);
+				String address = model.getAddress();
 				model.setAddress(address);
+				String city = model.getCity();
 				model.setCity(city);
+				String country = model.getCountry();
 				model.setCountry(country);
-				out.println("Profile");
-				out.println("Name: "+name);
-				out.println("Username: "+uname);
-				out.println("Email: "+email);
-				out.println("Address: "+address);
-				out.println("City: "+city);
-				out.println("Country: "+country);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+				out.print("<b>Profile</b>");
+				out.print("<br>");
+				out.print("<br>");
+				out.print("Name: "+name);
+				out.print("<br>");
+				out.print("Username: "+username);
+				out.print("<br>");
+				out.print("Email: "+email);
+				out.print("<br>");
+				out.print("Address: "+address);
+				out.print("<br>");
+				out.print("City: "+city);
+				out.print("<br>");
+				out.print("Country: "+country);
+			}catch (Exception e) {
 				e.printStackTrace();
 			}
-			request.setAttribute("datamodel", model);
-			request.getRequestDispatcher("link.html").include(request, response);
 		}
 		else {
-			out.print("please login first");
+			out.print("please login first<br><br>");
 			request.getRequestDispatcher("login.html").include(request, response);
 		}
 		out.close();

@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.dao.LoginRedirect;
 import com.model.Model;
 
@@ -28,6 +30,8 @@ public class RedirectServlet extends HttpServlet {
 			model.setName(name);
 			System.out.println(name);
 			out.print("Welcome, "+name);
+			HttpSession session=request.getSession();
+			session.setAttribute("name",name);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
